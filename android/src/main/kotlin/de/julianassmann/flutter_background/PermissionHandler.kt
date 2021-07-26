@@ -57,11 +57,15 @@ class PermissionHandler(private val context: Context,
                             null)
                 }
                 else -> {
-                    addActivityResultListener(PermissionActivityResultListener(result::success, result::error))
-                    val intent = Intent()
-                    intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                    intent.data = Uri.parse("package:${context.packageName}")
-                    activity.startActivityForResult(intent, PERMISSION_CODE_IGNORE_BATTERY_OPTIMIZATIONS)
+                    try {
+                        addActivityResultListener(PermissionActivityResultListener(result::success, result::error))
+                        val intent = Intent()
+                        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                        intent.data = Uri.parse("package:${context.packageName}")
+                        activity.startActivityForResult(intent, PERMISSION_CODE_IGNORE_BATTERY_OPTIMIZATIONS)
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
